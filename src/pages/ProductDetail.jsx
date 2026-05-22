@@ -7,9 +7,9 @@ export default function ProductDetail({ addToCart }) {
   const { id } = useParams();
   const product = products.find(p => p.id === parseInt(id));
 
-  const [selectedSize, setSelectedSize] = useState(product?.sizes?.[0] || "");
-  const [selectedColor, setSelectedColor] = useState(product?.colors?.[0] || "");
-  const [orderOption, setOrderOption] = useState("order"); // "order" или "stock"
+  const [selectedSize, setSelectedSize] = useState(product?.sizes?.[0] || "M");
+  const [selectedColor, setSelectedColor] = useState(product?.colors?.[0] || "Black");
+  const [orderOption, setOrderOption] = useState("order");
 
   if (!product) {
     return (
@@ -31,7 +31,6 @@ export default function ProductDetail({ addToCart }) {
 
   return (
     <div className="bg-[#050505] text-white min-h-screen px-4 md:px-12 py-8">
-      {/* Хлебные крошки */}
       <div className="text-sm text-gray-400 mb-6">
         <Link to="/" className="hover:text-white">Home</Link> /{" "}
         <Link to={`/${product.category}`} className="hover:text-white">
@@ -40,20 +39,18 @@ export default function ProductDetail({ addToCart }) {
       </div>
 
       <div className="grid md:grid-cols-2 gap-10">
-        {/* Левая колонка – изображение */}
         <div className="bg-[#111] rounded-2xl p-6 flex justify-center items-center border border-gray-800">
           <img src={product.image} alt={product.name} className="w-full max-h-[500px] object-contain" />
         </div>
 
-        {/* Правая колонка – детали */}
         <div>
-          <h1 className="text-3xl md:text-4xl font-bold">{product.brand}</h1>
+          <h1 className="text-3xl md:text-4xl font-bold">{product.brand || "Brand"}</h1>
           <div className="flex items-center gap-2 mt-2">
             <div className="flex text-yellow-400">
-              {"★".repeat(Math.floor(product.rating))}
-              {"☆".repeat(5 - Math.floor(product.rating))}
+              {"★".repeat(Math.floor(product.rating || 4))}
+              {"☆".repeat(5 - Math.floor(product.rating || 4))}
             </div>
-            <span className="text-gray-400 text-sm">{product.reviews} reviews</span>
+            <span className="text-gray-400 text-sm">{product.reviews || 0} reviews</span>
           </div>
 
           <h2 className="text-xl md:text-2xl font-semibold mt-4">{product.name}</h2>
@@ -67,13 +64,12 @@ export default function ProductDetail({ addToCart }) {
 
           <hr className="my-6 border-gray-800" />
 
-          {/* Size chart + выбор размера */}
           <div className="flex justify-between items-center mb-2">
             <span className="font-semibold">Size chart</span>
             <button className="text-sm text-lime-400">Size guide</button>
           </div>
           <div className="flex flex-wrap gap-2 mb-6">
-            {product.sizes.map(size => (
+            {["S", "M", "L", "XL"].map(size => (
               <button
                 key={size}
                 onClick={() => setSelectedSize(size)}
@@ -88,11 +84,10 @@ export default function ProductDetail({ addToCart }) {
             ))}
           </div>
 
-          {/* Цвета */}
           <div className="mb-6">
             <span className="font-semibold block mb-2">Color</span>
             <div className="flex flex-wrap gap-3">
-              {product.colors.map(color => (
+              {["Black", "White", "Red"].map(color => (
                 <button
                   key={color}
                   onClick={() => setSelectedColor(color)}
@@ -108,7 +103,6 @@ export default function ProductDetail({ addToCart }) {
             </div>
           </div>
 
-          {/* Available options (To order / In stock) */}
           <div className="mb-6">
             <span className="font-semibold block mb-2">Available options:</span>
             <div className="flex gap-4">
@@ -137,13 +131,11 @@ export default function ProductDetail({ addToCart }) {
             </div>
           </div>
 
-          {/* Доставка */}
           <div className="bg-[#111] rounded-xl p-4 mb-6 border border-gray-800">
-            <p className="text-sm text-gray-300">{product.delivery || "Order delivery point — free of charge"}</p>
-            <p className="text-sm text-gray-400 mt-1">{product.deliveryDate || "Delivery tomorrow or later"}</p>
+            <p className="text-sm text-gray-300">Order delivery point — free of charge</p>
+            <p className="text-sm text-gray-400 mt-1">Delivery tomorrow or later</p>
           </div>
 
-          {/* Кнопки */}
           <div className="flex gap-4">
             <button
               onClick={handleAddToCart}

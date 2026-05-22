@@ -20,22 +20,27 @@ export default function CategoryPage({ title, products, addToCart }) {
             <motion.div
               key={product.id}
               whileHover={{ scale: 1.02 }}
-              className="bg-[#111] rounded-2xl p-4 border border-gray-800"
+              className="bg-[#111] rounded-2xl p-4 border border-gray-800 relative"
             >
-              <Link to={`/product/${product.id}`}>
+              {/* Ссылка на страницу товара – оборачивает почти всю карточку */}
+              <Link to={`/product/${product.id}`} className="block">
                 <img
                   src={product.image}
                   alt={product.name}
                   className="w-full h-48 object-cover rounded-xl mb-4"
                   onError={(e) => (e.target.src = "https://via.placeholder.com/300?text=No+Image")}
                 />
-                <h3 className="text-xl font-semibold">{product.name}</h3>
-                <p className="text-lime-400 text-lg">${product.price}</p>
+                <h3 className="text-xl font-semibold hover:text-lime-400 transition">
+                  {product.name}
+                </h3>
+                <p className="text-lime-400 text-lg mt-1">${product.price}</p>
                 <p className="text-gray-400 text-sm mt-1 line-clamp-2">{product.desc}</p>
               </Link>
+              {/* Кнопка "В корзину" – без Link, чтобы не переходило на страницу */}
               <button
                 onClick={(e) => {
-                  e.preventDefault();
+                  e.preventDefault();      // останавливаем переход по ссылке
+                  e.stopPropagation();     // дополнительная страховка
                   addToCart(product);
                 }}
                 className="mt-4 bg-lime-400 text-black px-4 py-2 rounded-xl w-full font-semibold hover:bg-lime-500 transition"
