@@ -29,7 +29,7 @@ export default function Couture() {
   }, []);
 
   const handleReadMore = (article) => {
-    // Передаём статью через state, а в URL используем заголовок (для читаемости)
+    
     navigate(`/news/${encodeURIComponent(article.title)}`, { state: { article } });
   };
 

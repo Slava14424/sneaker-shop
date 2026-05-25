@@ -1,7 +1,15 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
-export default function CategoryPage({ title, products, addToCart }) {
+export default function CategoryPage({ title, products, addToCart, subcategories }) {
+  const [activeSubcat, setActiveSubcat] = useState("all");
+
+  const filteredProducts =
+    activeSubcat === "all"
+      ? products
+      : products.filter(p => p.subcategory === activeSubcat);
+
   return (
     <div className="px-6 md:px-12 py-8">
       <motion.h1
@@ -12,17 +20,43 @@ export default function CategoryPage({ title, products, addToCart }) {
         {title}
       </motion.h1>
 
-      {products.length === 0 ? (
+      {}
+      <div className="flex flex-wrap gap-3 mb-8">
+        <button
+          onClick={() => setActiveSubcat("all")}
+          className={`px-5 py-2 rounded-full text-sm font-medium transition ${
+            activeSubcat === "all"
+              ? "bg-lime-400 text-black"
+              : "bg-[#1a1a1a] text-gray-300 hover:bg-lime-400/20"
+          }`}
+        >
+          Все
+        </button>
+        {subcategories.map((sub) => (
+          <button
+            key={sub.value}
+            onClick={() => setActiveSubcat(sub.value)}
+            className={`px-5 py-2 rounded-full text-sm font-medium transition ${
+              activeSubcat === sub.value
+                ? "bg-lime-400 text-black"
+                : "bg-[#1a1a1a] text-gray-300 hover:bg-lime-400/20"
+            }`}
+          >
+            {sub.label}
+          </button>
+        ))}
+      </div>
+
+      {filteredProducts.length === 0 ? (
         <p className="text-gray-400">Нет товаров в этой категории.</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {products.map((product) => (
+          {filteredProducts.map((product) => (
             <motion.div
               key={product.id}
               whileHover={{ scale: 1.02 }}
               className="bg-[#111] rounded-2xl p-4 border border-gray-800 relative"
             >
-              {/* Ссылка на страницу товара – оборачивает почти всю карточку */}
               <Link to={`/product/${product.id}`} className="block">
                 <img
                   src={product.image}
@@ -36,11 +70,9 @@ export default function CategoryPage({ title, products, addToCart }) {
                 <p className="text-lime-400 text-lg mt-1">${product.price}</p>
                 <p className="text-gray-400 text-sm mt-1 line-clamp-2">{product.desc}</p>
               </Link>
-              {/* Кнопка "В корзину" – без Link, чтобы не переходило на страницу */}
               <button
                 onClick={(e) => {
-                  e.preventDefault();      // останавливаем переход по ссылке
-                  e.stopPropagation();     // дополнительная страховка
+                  e.preventDefault();
                   addToCart(product);
                 }}
                 className="mt-4 bg-lime-400 text-black px-4 py-2 rounded-xl w-full font-semibold hover:bg-lime-500 transition"

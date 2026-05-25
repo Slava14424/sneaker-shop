@@ -54,7 +54,7 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Низ с соцсетями и копирайтом */}
+        {}
         <div className="border-t border-gray-800 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
           <p>© 2025 Sneakerly. All rights reserved.</p>
           <div className="flex gap-4 mt-4 md:mt-0">

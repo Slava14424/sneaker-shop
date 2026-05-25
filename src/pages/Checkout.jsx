@@ -90,7 +90,7 @@ export default function Checkout({ cart, subtotal, shipping, discount, total, cl
         <div className="grid md:grid-cols-3 gap-8">
           <div className="md:col-span-2">
             <form onSubmit={handleSubmit} className="space-y-5 bg-[#0f0f0f] p-6 rounded-2xl border border-gray-800">
-              {/* Поля формы с валидацией – без изменений, они были ранее */}
+              {}
               <div>
                 <label className="block text-sm font-medium mb-1">Полное имя *</label>
                 <input type="text" name="name" required value={formData.name} onChange={handleChange} className={`w-full bg-[#1a1a1a] border ${errors.name ? 'border-red-500' : 'border-gray-700'} rounded-lg px-4 py-2 focus:outline-none focus:border-lime-400`} />

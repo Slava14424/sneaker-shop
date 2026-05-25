@@ -88,7 +88,7 @@ export default function Couture() {
 
   useEffect(() => {
     const fetchNews = async () => {
-      // Если нет ключа, сразу показываем fallback
+      
       if (!GNEWS_API_KEY) {
         console.warn("API ключ отсутствует, использую локальные новости");
         setNews(fallbackNews);
@@ -153,7 +153,7 @@ export default function Couture() {
     <div className="bg-[#050505] text-white min-h-screen pt-28 px-4 md:px-12 pb-12">
       {error && (
         <div className="mb-6 p-3 bg-yellow-500/20 border border-yellow-500 rounded-xl text-yellow-500 text-sm text-center">
-          ⚠️ {error} Показываем свежие новости из нашей коллекции.
+           {error} Показываем свежие новости из нашей коллекции.
         </div>
       )}
       <motion.h1

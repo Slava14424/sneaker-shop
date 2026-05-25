@@ -1,48 +1,9 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
 export default function Navbar({ cartCount = 0, onCartClick }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [notificationsOpen, setNotificationsOpen] = useState(false);
-
-  // Демо-данные уведомлений (можно вынести в отдельный файл или API)
-  const notifications = [
-    {
-      id: 1,
-      title: "🔥 Новые дропы Nike",
-      description: "Air Max 90 в новых расцветках уже в продаже",
-      date: "10 мин назад",
-      icon: "🔥",
-      read: false,
-    },
-    {
-      id: 2,
-      title: "⚡ Скидка 20% на Adidas",
-      description: "Промокод ADIDAS20 действует до конца недели",
-      date: "2 часа назад",
-      icon: "⚡",
-      read: false,
-    },
-    {
-      id: 3,
-      title: "👟 Новые поступления",
-      description: "Yeezy 350 V2 и Balenciaga Track в наличии",
-      date: "вчера",
-      icon: "👟",
-      read: true,
-    },
-    {
-      id: 4,
-      title: "🎁 Бесплатная доставка",
-      description: "При заказе от 5000₽ — доставка бесплатно",
-      date: "2 дня назад",
-      icon: "🎁",
-      read: true,
-    },
-  ];
-
-  const unreadCount = notifications.filter(n => !n.read).length;
 
   return (
     <motion.header
@@ -76,86 +37,22 @@ export default function Navbar({ cartCount = 0, onCartClick }) {
       </div>
 
       <div className="flex items-center gap-4">
-        {/* Уведомления */}
-        <div className="relative">
-          <button
-            onClick={() => setNotificationsOpen(!notificationsOpen)}
-            className="relative text-xl hover:text-lime-400 transition"
-          >
-            🔔
-            {unreadCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full animate-pulse">
-                {unreadCount}
-              </span>
-            )}
-          </button>
-
-          <AnimatePresence>
-            {notificationsOpen && (
-              <>
-                <div
-                  className="fixed inset-0 z-40"
-                  onClick={() => setNotificationsOpen(false)}
-                />
-                <motion.div
-                  initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                  transition={{ duration: 0.2 }}
-                  className="absolute right-0 mt-3 w-80 md:w-96 bg-[#111] border border-gray-700 rounded-2xl shadow-2xl z-50 overflow-hidden"
-                >
-                  <div className="flex justify-between items-center p-4 border-b border-gray-800">
-                    <h3 className="font-bold">Уведомления</h3>
-                    <button
-                      onClick={() => setNotificationsOpen(false)}
-                      className="text-gray-400 hover:text-white"
-                    >
-                      ✕
-                    </button>
-                  </div>
-                  <div className="max-h-96 overflow-y-auto">
-                    {notifications.length === 0 ? (
-                      <div className="p-6 text-center text-gray-400">
-                        Нет новых уведомлений
-                      </div>
-                    ) : (
-                      notifications.map((n) => (
-                        <div
-                          key={n.id}
-                          className={`p-4 border-b border-gray-800 hover:bg-[#1a1a1a] transition cursor-pointer ${
-                            !n.read ? "bg-lime-400/5" : ""
-                          }`}
-                        >
-                          <div className="flex gap-3">
-                            <div className="text-2xl">{n.icon}</div>
-                            <div className="flex-1">
-                              <div className="flex justify-between items-start">
-                                <h4 className="font-semibold text-sm">{n.title}</h4>
-                                <span className="text-xs text-gray-500">{n.date}</span>
-                              </div>
-                              <p className="text-xs text-gray-400 mt-1">{n.description}</p>
-                            </div>
-                          </div>
-                        </div>
-                      ))
-                    )}
-                  </div>
-                  <div className="p-3 text-center border-t border-gray-800">
-                    <button className="text-xs text-lime-400 hover:underline">
-                      Показать все
-                    </button>
-                  </div>
-                </motion.div>
-              </>
-            )}
-          </AnimatePresence>
+        {/* Уведомления (без смайликов) */}
+        <div className="relative cursor-pointer group hidden sm:block">
+          <span className="text-gray-300 text-sm">Уведомления</span>
+          <span className="absolute -top-2 -right-2 bg-lime-400 text-black text-xs w-5 h-5 flex items-center justify-center rounded-full">3</span>
+          <div className="absolute right-0 mt-4 w-56 bg-[#111] border border-gray-800 rounded-xl p-3 opacity-0 group-hover:opacity-100 transition pointer-events-none group-hover:pointer-events-auto z-50">
+            <p className="text-sm mb-1">Новые поступления</p>
+            <p className="text-sm mb-1">Скидка -20% на Nike</p>
+            <p className="text-sm">Новые модели на этой неделе</p>
+          </div>
         </div>
 
-        {/* Корзина */}
-        <button onClick={onCartClick} className="relative text-xl hover:text-lime-400 transition">
-          🛒
+        {/* Корзина – текст вместо смайлика */}
+        <button onClick={onCartClick} className="relative cursor-pointer text-sm font-medium bg-transparent border border-gray-600 rounded-full px-4 py-1.5 hover:border-lime-400 transition">
+          Корзина
           {cartCount > 0 && (
-            <span className="absolute -top-2 -right-3 bg-lime-400 text-black text-xs w-5 h-5 flex items-center justify-center rounded-full font-bold">
+            <span className="absolute -top-2 -right-2 bg-lime-400 text-black text-xs w-5 h-5 flex items-center justify-center rounded-full">
               {cartCount}
             </span>
           )}
