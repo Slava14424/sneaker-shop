@@ -1,57 +1,88 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { fashionNews } from "../../data/news";
+import { useNavigate } from "react-router-dom";
+
+const GNEWS_API_KEY = import.meta.env.VITE_GNEWS_API_KEY;
 
 export default function Couture() {
+  const [news, setNews] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const response = await fetch(
+          `https://gnews.io/api/v4/search?q=fashion%20luxury%20couture&lang=en&country=us&max=10&apikey=${GNEWS_API_KEY}`
+        );
+        if (!response.ok) throw new Error("Ошибка загрузки новостей");
+        const data = await response.json();
+        setNews(data.articles || []);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchNews();
+  }, []);
+
+  const handleReadMore = (article) => {
+    // Передаём статью через state, а в URL используем заголовок (для читаемости)
+    navigate(`/news/${encodeURIComponent(article.title)}`, { state: { article } });
+  };
+
+  if (loading) return (
+    <div className="bg-[#050505] text-white min-h-screen pt-28 flex items-center justify-center">
+      <div className="text-lime-400">Загрузка новостей...</div>
+    </div>
+  );
+
+  if (error) return (
+    <div className="bg-[#050505] text-white min-h-screen pt-28 flex items-center justify-center flex-col gap-4">
+      <p className="text-red-400">Ошибка: {error}</p>
+      <button onClick={() => window.location.reload()} className="bg-lime-400 text-black px-4 py-2 rounded-xl">
+        Повторить
+      </button>
+    </div>
+  );
+
   return (
-    <div className="min-h-screen bg-[#050505] text-white px-6 md:px-12 py-8">
+    <div className="bg-[#050505] text-white min-h-screen pt-28 px-4 md:px-12 pb-12">
       <motion.h1
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-4xl md:text-5xl font-bold mb-4"
+        className="text-3xl md:text-4xl font-bold mb-8"
       >
-        Fashion News
+        Couture / Новости моды
       </motion.h1>
-      <p className="text-gray-400 mb-12 text-lg">
-        Главные события мира моды, тренды и эксклюзивы
-      </p>
-
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {fashionNews.map((news, idx) => (
-          <motion.article
-            key={news.id}
-            initial={{ opacity: 0, y: 30 }}
+        {news.map((article, idx) => (
+          <motion.div
+            key={idx}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: idx * 0.05 }}
-            whileHover={{ y: -8 }}
-            className="bg-[#111] rounded-2xl overflow-hidden border border-gray-800 hover:border-gray-600 transition-all"
+            className="bg-[#0f0f0f] rounded-2xl overflow-hidden border border-gray-800 hover:border-lime-400/50 transition-all"
           >
-            <img
-              src={news.image}
-              alt={news.title}
-              className="w-full h-56 object-cover"
-              onError={(e) => e.target.src = "https://via.placeholder.com/600x400?text=News+Image"}
-            />
+            {article.image && (
+              <img src={article.image} alt={article.title} className="w-full h-48 object-cover" />
+            )}
             <div className="p-5">
-              <div className="flex justify-between items-center mb-3">
-                <span className="text-xs uppercase tracking-wider text-lime-400 font-semibold">
-                  {news.category}
-                </span>
-                <span className="text-xs text-gray-500">{news.date}</span>
+              <h2 className="text-xl font-bold mb-2 line-clamp-2">{article.title}</h2>
+              <p className="text-gray-400 text-sm mb-4 line-clamp-3">{article.description}</p>
+              <div className="flex justify-between items-center">
+                <span className="text-xs text-gray-500">{new Date(article.publishedAt).toLocaleDateString()}</span>
+                <button
+                  onClick={() => handleReadMore(article)}
+                  className="text-lime-400 hover:text-lime-300 text-sm font-medium"
+                >
+                  Читать далее →
+                </button>
               </div>
-              <h2 className="text-xl font-bold mb-2 hover:text-lime-400 transition">
-                <a href={news.link} className="block">
-                  {news.title}
-                </a>
-              </h2>
-              <p className="text-gray-400 text-sm mb-4">{news.summary}</p>
-              <a
-                href={news.link}
-                className="inline-flex items-center text-lime-400 text-sm font-medium hover:underline"
-              >
-                Читать далее →
-              </a>
             </div>
-          </motion.article>
+          </motion.div>
         ))}
       </div>
     </div>

@@ -2,30 +2,21 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-export default function CartDrawer({ isOpen, onClose, cart, updateQuantity, removeItem }) {
+export default function CartDrawer({ 
+  isOpen, onClose, cart, updateQuantity, removeItem,
+  discount, setDiscount, applyPromo, subtotal, shipping, total
+}) {
   const navigate = useNavigate();
-  const [promoCode, setPromoCode] = useState("");
-  const [discount, setDiscount] = useState(0);
+  const [promoInput, setPromoInput] = useState("");
 
-  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const shipping = subtotal > 5000 ? 0 : 500;
-  const total = subtotal + shipping - discount;
-
-  const applyPromo = () => {
-    if (promoCode === "SNEAKER20") {
-      setDiscount(subtotal * 0.2);
-      alert("Промокод применён! Скидка 20%");
-    } else if (promoCode === "FREESHIP") {
-      setDiscount(0);
-      alert("Бесплатная доставка активирована");
-    } else {
-      alert("Неверный промокод");
-    }
+  const handleApplyPromo = () => {
+    const message = applyPromo(promoInput);
+    alert(message);
   };
 
   const handleCheckout = () => {
-    onClose();               // закрываем корзину
-    navigate("/checkout");   // переход без перезагрузки
+    onClose();
+    navigate("/checkout");
   };
 
   return (
@@ -86,7 +77,6 @@ export default function CartDrawer({ isOpen, onClose, cart, updateQuantity, remo
                         </div>
                         <div className="text-right">
                           <div className="font-bold text-lime-400">${(item.price * item.quantity).toFixed(2)}</div>
-                          {item.oldPrice && <div className="text-xs text-gray-500 line-through">${(item.oldPrice * item.quantity).toFixed(2)}</div>}
                         </div>
                       </div>
                     </div>
@@ -98,9 +88,18 @@ export default function CartDrawer({ isOpen, onClose, cart, updateQuantity, remo
             {cart.length > 0 && (
               <div className="border-t border-gray-800 p-5 space-y-4">
                 <div className="flex gap-2">
-                  <input type="text" placeholder="Промокод" value={promoCode} onChange={(e) => setPromoCode(e.target.value)} className="flex-1 bg-[#1a1a1a] border border-gray-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-lime-400" />
-                  <button onClick={applyPromo} className="bg-gray-800 px-4 py-2 rounded-xl text-sm hover:bg-gray-700 transition">Применить</button>
+                  <input
+                    type="text"
+                    placeholder="Промокод"
+                    value={promoInput}
+                    onChange={(e) => setPromoInput(e.target.value)}
+                    className="flex-1 bg-[#1a1a1a] border border-gray-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-lime-400"
+                  />
+                  <button onClick={handleApplyPromo} className="bg-gray-800 px-4 py-2 rounded-xl text-sm hover:bg-gray-700 transition">
+                    Применить
+                  </button>
                 </div>
+
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between"><span className="text-gray-400">Товары</span><span>${subtotal.toFixed(2)}</span></div>
                   <div className="flex justify-between"><span className="text-gray-400">Доставка</span><span>{shipping === 0 ? "Бесплатно" : `$${shipping.toFixed(2)}`}</span></div>
@@ -110,6 +109,7 @@ export default function CartDrawer({ isOpen, onClose, cart, updateQuantity, remo
                     {subtotal < 5000 && <p className="text-xs text-gray-400 mt-1">Добавьте товаров на ${(5000 - subtotal).toFixed(2)} для бесплатной доставки</p>}
                   </div>
                 </div>
+
                 <button onClick={handleCheckout} className="w-full bg-lime-400 text-black py-3 rounded-xl font-bold hover:bg-lime-500 transition">Оформить заказ</button>
                 <button onClick={onClose} className="w-full text-gray-400 text-sm py-2">Продолжить покупки</button>
               </div>
