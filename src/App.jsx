@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Layout from "./assets/components/Layout";
 import CartDrawer from "./assets/components/CartDrawer";
 import Home from "./pages/Home";
@@ -8,12 +8,19 @@ import Women from "./pages/Women";
 import Couture from "./pages/Couture";
 import Explore from "./pages/Explore";
 import ProductDetail from "./pages/ProductDetail";
+import Checkout from "./pages/Checkout";
 
 export default function App() {
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(() => {
+    const savedCart = localStorage.getItem("cart");
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
   const [isCartOpen, setIsCartOpen] = useState(false);
 
-  // Добавление товара (с количеством)
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
+
   const addToCart = (product) => {
     setCart(prevCart => {
       const existing = prevCart.find(item => item.id === product.id);
@@ -29,7 +36,6 @@ export default function App() {
     setIsCartOpen(true);
   };
 
-  // Изменение количества
   const updateQuantity = (id, newQuantity) => {
     if (newQuantity <= 0) {
       removeItem(id);
@@ -42,14 +48,20 @@ export default function App() {
     );
   };
 
-  // Удаление товара
   const removeItem = (id) => {
     setCart(prevCart => prevCart.filter(item => item.id !== id));
   };
 
+  const clearCart = () => {
+    setCart([]);
+  };
+
+  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const cartCount = cart.reduce((acc, i) => acc + i.quantity, 0);
+
   return (
     <BrowserRouter>
-      <Layout cartCount={cart.reduce((acc, i) => acc + i.quantity, 0)} onCartClick={() => setIsCartOpen(true)}>
+      <Layout cartCount={cartCount} onCartClick={() => setIsCartOpen(true)}>
         <Routes>
           <Route path="/" element={<Home addToCart={addToCart} />} />
           <Route path="/men" element={<Men addToCart={addToCart} />} />
@@ -57,10 +69,9 @@ export default function App() {
           <Route path="/couture" element={<Couture addToCart={addToCart} />} />
           <Route path="/explore" element={<Explore />} />
           <Route path="/product/:id" element={<ProductDetail addToCart={addToCart} />} />
+          <Route path="/checkout" element={<Checkout cart={cart} total={total} clearCart={clearCart} />} />
         </Routes>
       </Layout>
-
-      {/* Корзина вынесена в отдельный компонент */}
       <CartDrawer
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
