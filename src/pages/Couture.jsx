@@ -4,97 +4,76 @@ import { useNavigate } from "react-router-dom";
 
 const GNEWS_API_KEY = import.meta.env.VITE_GNEWS_API_KEY;
 
-// Резервные новости (на случай лимита API)
+
 const fallbackNews = [
   {
-    title: "Louis Vuitton представил коллекцию осень-зима 2025",
-    description: "Французский дом моды удивил публику инновационными материалами и смелыми силуэтами. Показ прошёл в Париже.",
-    image: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=600",
-    publishedAt: new Date().toISOString(),
-    source: { name: "Vogue" },
-    content: "Полный текст: Новая коллекция Louis Vuitton сочетает классику и футуризм. Дизайнеры использовали переработанные ткани и 3D-печать. Ключевые вещи: объёмные пальто, брюки клёш и аксессуары из эко-кожи."
-  },
-  {
     title: "Balenciaga запускает линию кроссовок с ИИ-дизайном",
-    description: "Коллаборация с технологическим стартапом обещает персонализированную подошву, напечатанную на 3D-принтере.",
-    image: "https://i.siteapi.org/t5aket8_3zWs54uqdoONNmXqHIU=/0x0:1200x686/s2.siteapi.org/44b0dfc585a3400/img/qknxpvytm804kc0s4goo0og8444w84",
+    description: "Balenciaga экспериментирует с AI-генерированными элементами в своих коллекциях. Генеративный дизайн позволяет создавать формы и текстуры, которые раньше были невозможны.",
+    image: "https://outmaxshop.ru/images/proadvert_Present_a_pair_of_stylish_youthful_Balenciaga_sneake_68908ff9-abf3-455c-a1a3-48e2e8a2fd6f.png",
     publishedAt: new Date().toISOString(),
-    source: { name: "Hypebeast" },
-    content: "Balenciaga представила прототип кроссовок, которые подстраиваются под форму стопы владельца. Сканер в магазине создаёт цифровую модель, а затем печатает подошву за 24 часа."
-  },
-  {
-    title: "Gucci возрождает культовую сумку Jackie 1961",
-    description: "Обновлённая версия с устойчивыми материалами и современными пропорциями уже в предзаказе.",
-    image: "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?w=600",
-    publishedAt: new Date().toISOString(),
-    source: { name: "Harper's Bazaar" },
-    content: "Legacy-модель возвращается с новой экокожей и подкладкой из переработанного нейлона. Доступно 5 цветов, включая изумрудный и терракотовый."
+    source: { name: "Vogue" }
   },
 
   {
-    title: "Викторианский стиль возвращается: корсеты и кружева на подиумах",
-    description: "Дизайнеры переосмысливают романтику XIX века в уличной моде.",
-    image: "https://images.unsplash.com/photo-1582418702059-97ebafb35d09?w=600",
-    publishedAt: new Date().toISOString(),
-    source: { name: "Elle" },
-    content: "Модные дома включают корсеты в повседневные образы, сочетая их с денимом и кедами. В тренде также жабо и объёмные рукава."
+    title: "Устойчивая мода становится мейнстримом",
+    description: "В 2025 году устойчивое развитие перестало быть дополнительной опцией. Переработка, апсайклинг и винтаж прочно вошли в мейнстрим, а потребители начали инвестировать в качественные вещи, рассчитанные на долгий срок службы.",
+    image: "https://storage.yandexcloud.net/moskvichmag/uploads/2026/04/BOYKO_08598-1-791x1024.jpg",
+    publishedAt: new Date(Date.now() - 172800000).toISOString(),
+    source: { name: "Moskvich Mag" }
   },
   {
-    title: "Модный дом Dior открывает выставку в Париже",
-    description: "Ретроспектива, посвящённая 80-летию бренда, будет работать всё лето.",
-    image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=600",
-    publishedAt: new Date().toISOString(),
-    source: { name: "WWD" },
-    content: "Выставка 'Dior Heritage' представит более 200 культовых нарядов, включая платья, созданные для принцессы Дианы и Грейс Келли."
+    title: "Gucci и Oura создали умное кольцо",
+    description: "Gucci и Oura представили умное кольцо, которое отслеживает состояние здоровья и подбирает аксессуары под ваш образ. Гаджет сочетает в себе передовые технологии и итальянский дизайн.",
+    image: "https://sunlight.net/wiki/wp-content/uploads/2022/08/gucci-x-oura-ring-7.jpg",
+    publishedAt: new Date(Date.now() - 259200000).toISOString(),
+    source: { name: "WWD" }
   },
   {
-    title: "Как устойчивая мода становится мейнстримом",
-    description: "Бренды от Zara до Stella McCartney переходят на переработанные ткани.",
-    image: "https://storage.yandexcloud.net/moskvichmag/uploads/2026/04/BOYKO_08853-1-792x1024.jpg",
-    publishedAt: new Date().toISOString(),
-    source: { name: "Business of Fashion" },
-    content: "Использование эко-материалов выросло на 40% за последний год. Потребители всё чаще выбирают продукцию с маркировкой 'устойчивое производство'."
+    title: "Puma выпускает лимитированную серию с BMW",
+    description: "Puma посвятила 50-летие BMW M выпуску эксклюзивной серии кроссовок. Дизайн обуви вдохновлен культовыми автомобилями баварского автопроизводителя.",
+    image: "https://news.store.rambler.ru/img/ce93b0d7779ae3035bff54ec3611b997?img-format=auto&img-1-resize=height:400,fit:max&img-2-filter=sharpen",
+    publishedAt: new Date(Date.now() - 345600000).toISOString(),
+    source: { name: "Sneaker News" }
   },
   {
-    title: "Кроссовки-невидимки: новая технология от Under Armour",
-    description: "Обувь с камуфляжем из светоотражающих материалов стала хитом предзаказа.",
-    image: "https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?w=600",
-    publishedAt: new Date().toISOString(),
-    source: { name: "TechCrunch" },
-    content: "В тёмное время суток кроссовки отражают свет фар, создавая эффект невидимости. За первые сутки разобрали 5000 пар."
+    title: "Louis Vuitton показал кроссовки из гриба",
+    description: "Louis Vuitton представил кроссовки, изготовленные из мицелия — экологичной альтернативы коже. Это важный шаг в развитии устойчивой моды в люксовом сегменте.",
+    image: "https://blog.sneakerhead.ru/content/images/size/w1200/2024/03/https---hypebeast.com-image-2024-03-tyler-the-creator-louis-vuitton-sneaker-first-look-images-2.jpg.webp",
+    publishedAt: new Date(Date.now() - 432000000).toISOString(),
+    source: { name: "Business of Fashion" }
   },
   {
-    title: "Показ Off-White в Лондоне собрал звёзд первой величины",
-    description: "Коллекция вдохновлена панк-движением 80-х и современным стритстайлом.",
-    image: "https://images.unsplash.com/photo-1579338559194-a162d19bf842?w=600",
-    publishedAt: new Date().toISOString(),
-    source: { name: "i-D" },
-    content: "Мероприятие посетили Рианна, A$AP Rocky и другие знаменитости. Ключевые луки: кожа, цепи, необработанные края."
+    title: "New Balance 990v6 – лучшая обувь года",
+    description: "New Balance 990v6 получил награду «Лучшая обувь года». Шестая версия культовой модели сочетает в себе комфорт, современный дизайн и качество, за которое ценят бренд.",
+    image: "https://img04.rl0.ru/afisha/e1200x600i/daily.afisha.ru/uploads/images/0/8a/08a1413f6995eabf802343e282784eb9.png",
+    publishedAt: new Date(Date.now() - 518400000).toISOString(),
+    source: { name: "Footwear News" }
+  },
+  {
+    title: "ASICS запускает переработку старых кроссовок",
+    description: "ASICS запускает программу переработки старых кроссовок. Сдайте изношенную пару и получите скидку на новую. Это часть глобальной стратегии бренда по сокращению отходов.",
+    image: "https://img.tsn.ua/cached/914/tsn-3122bdbfc8d6fcfa75d8528e9b9cd61a/thumbs/1200x630/e4/65/bad8a72b2383edf6816738b5801d65e4.jpg",
+    publishedAt: new Date(Date.now() - 604800000).toISOString(),
+    source: { name: "Eco Watch" }
+  },
+  {
+    title: "Off-White™ x Nike распродана за 2 минуты",
+    description: "Коллекция Off-White™ x Nike была распродана за 2 минуты. Ажиотаж вокруг последней работы Вирджила Абло подтверждает статус бренда как одного из самых влиятельных в уличной моде.",
+    image: "https://funkydunky.ru/upload/iblock/e58/gu0dj8zz2wxl3bo5ibdlcr1gx1lmt56q.jpeg",
+    publishedAt: new Date(Date.now() - 691200000).toISOString(),
+    source: { name: "Complex" }
   }
 ];
 
 export default function Couture() {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchNews = async () => {
-      
-      if (!GNEWS_API_KEY) {
-        console.warn("API ключ отсутствует, использую локальные новости");
+      if (!GNEWS_API_KEY || GNEWS_API_KEY === "undefined") {
         setNews(fallbackNews);
-        setLoading(false);
-        return;
-      }
-
-      // Пытаемся взять из localStorage (кеш на 10 минут)
-      const cached = localStorage.getItem("couture_news");
-      const cacheTime = localStorage.getItem("couture_news_time");
-      const now = Date.now();
-      if (cached && cacheTime && now - parseInt(cacheTime) < 10 * 60 * 1000) {
-        setNews(JSON.parse(cached));
         setLoading(false);
         return;
       }
@@ -102,31 +81,28 @@ export default function Couture() {
       try {
         const url = `https://gnews.io/api/v4/search?q=fashion%20luxury%20couture&lang=en&country=us&max=9&apikey=${GNEWS_API_KEY}`;
         const response = await fetch(url);
-        
-        if (!response.ok) {
-          if (response.status === 429) {
-            throw new Error("Превышен лимит запросов к API. Показываем свежие новости из нашей базы.");
-          }
-          throw new Error(`HTTP ${response.status}`);
-        }
-        
-        const data = await response.json();
-        if (data.articles && data.articles.length > 0) {
-          setNews(data.articles);
-          localStorage.setItem("couture_news", JSON.stringify(data.articles));
-          localStorage.setItem("couture_news_time", now.toString());
-        } else {
+        if (response.status === 429 || !response.ok) {
           setNews(fallbackNews);
+        } else {
+          const data = await response.json();
+          if (data.articles && data.articles.length > 0) {
+            // Берём изображения из API, но если нет – подставляем из fallback
+            const articlesWithImages = data.articles.map((article, idx) => ({
+              ...article,
+              image: article.image || fallbackNews[idx % fallbackNews.length].image
+            }));
+            setNews(articlesWithImages);
+          } else {
+            setNews(fallbackNews);
+          }
         }
-      } catch (err) {
-        console.error("Ошибка API, использую fallback:", err);
-        setError(err.message);
+      } catch (error) {
+        console.error(error);
         setNews(fallbackNews);
       } finally {
         setLoading(false);
       }
     };
-    
     fetchNews();
   }, []);
 
@@ -134,54 +110,35 @@ export default function Couture() {
     navigate(`/news/${encodeURIComponent(article.title)}`, { state: { article } });
   };
 
-  if (loading) {
-    return (
-      <div className="bg-[#050505] text-white min-h-screen pt-28 flex items-center justify-center">
-        <div className="text-lime-400">Загрузка новостей...</div>
-      </div>
-    );
-  }
+  if (loading) return <div className="bg-primary text-text-primary min-h-screen pt-28 flex items-center justify-center">Загрузка...</div>;
 
   return (
-    <div className="bg-[#050505] text-white min-h-screen pt-28 px-4 md:px-12 pb-12">
-      {error && (
-        <div className="mb-6 p-3 bg-yellow-500/20 border border-yellow-500 rounded-xl text-yellow-500 text-sm text-center">
-           {error} Показываем свежие новости из нашей коллекции.
-        </div>
-      )}
-      <motion.h1
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="text-3xl md:text-4xl font-bold mb-8"
-      >
-        Couture / Новости моды
-      </motion.h1>
+    <div className="bg-primary text-text-primary min-h-screen pt-28 px-4 md:px-12 pb-12">
+      <h1 className="text-3xl md:text-4xl font-bold mb-8">Couture / Новости моды</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {news.map((article, idx) => (
-          <motion.div
-            key={idx}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: idx * 0.05 }}
-            className="bg-[#0f0f0f] rounded-2xl overflow-hidden border border-gray-800 hover:border-lime-400/50 transition-all flex flex-col"
-          >
-            {article.image && (
-              <img src={article.image} alt={article.title} className="w-full h-48 object-cover" />
-            )}
-            <div className="p-5 flex flex-col flex-1">
-              <h2 className="text-xl font-bold mb-2 line-clamp-2">{article.title}</h2>
-              <p className="text-gray-400 text-sm mb-4 line-clamp-3">{article.description}</p>
-              <div className="flex justify-between items-center mt-auto">
-                <span className="text-xs text-gray-500">{new Date(article.publishedAt).toLocaleDateString()}</span>
-                <button
-                  onClick={() => handleReadMore(article)}
-                  className="text-lime-400 hover:text-lime-300 text-sm font-medium"
-                >
+          <div key={idx} className="bg-card rounded-2xl overflow-hidden border border-border hover:border-lime-400/50 transition">
+            <img
+              src={article.image}
+              alt={article.title}
+              className="w-full h-48 object-cover"
+              onError={(e) => {
+                e.target.src = fallbackNews[idx % fallbackNews.length].image;
+              }}
+            />
+            <div className="p-5">
+              <h2 className="text-xl font-bold mb-2 line-clamp-2 text-text-primary">{article.title}</h2>
+              <p className="text-text-muted text-sm mb-4 line-clamp-3">{article.description}</p>
+              <div className="flex justify-between items-center">
+                <span className="text-xs text-text-muted">
+                  {article.publishedAt ? new Date(article.publishedAt).toLocaleDateString() : "Сегодня"}
+                </span>
+                <button onClick={() => handleReadMore(article)} className="text-lime-400 text-sm font-medium hover:text-lime-300">
                   Читать далее →
                 </button>
               </div>
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
     </div>

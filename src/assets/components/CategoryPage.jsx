@@ -15,7 +15,7 @@ export default function CategoryPage({ title, products, addToCart, subcategories
       <motion.h1
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-3xl md:text-4xl font-bold mb-8"
+        className="text-3xl md:text-4xl font-bold text-text-primary mb-8"
       >
         {title}
       </motion.h1>
@@ -26,7 +26,7 @@ export default function CategoryPage({ title, products, addToCart, subcategories
           className={`px-5 py-2 rounded-full text-sm font-medium transition ${
             activeSubcat === "all"
               ? "bg-lime-400 text-black"
-              : "bg-[#1a1a1a] text-gray-300 hover:bg-lime-400/20"
+              : "bg-card-hover text-text-secondary hover:bg-lime-400/20"
           }`}
         >
           Все
@@ -38,7 +38,7 @@ export default function CategoryPage({ title, products, addToCart, subcategories
             className={`px-5 py-2 rounded-full text-sm font-medium transition ${
               activeSubcat === sub.value
                 ? "bg-lime-400 text-black"
-                : "bg-[#1a1a1a] text-gray-300 hover:bg-lime-400/20"
+                : "bg-card-hover text-text-secondary hover:bg-lime-400/20"
             }`}
           >
             {sub.label}
@@ -47,14 +47,14 @@ export default function CategoryPage({ title, products, addToCart, subcategories
       </div>
 
       {filteredProducts.length === 0 ? (
-        <p className="text-gray-400">Нет товаров в этой категории.</p>
+        <p className="text-text-muted">Нет товаров в этой категории.</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredProducts.map((product) => (
             <motion.div
               key={product.id}
               whileHover={{ scale: 1.02 }}
-              className="bg-[#111] rounded-2xl p-4 border border-gray-800 relative"
+              className="bg-card rounded-2xl p-4 border border-border hover:border-lime-400/50 transition"
             >
               <Link to={`/product/${product.id}`} className="block">
                 <img
@@ -62,22 +62,21 @@ export default function CategoryPage({ title, products, addToCart, subcategories
                   alt={product.name}
                   className="w-full h-48 object-cover rounded-xl mb-4"
                   onError={(e) => {
-                    // Пытаемся подставить реальное изображение кроссовок из Unsplash (случайное)
                     e.target.src = "https://source.unsplash.com/featured/500x400?sneakers";
                   }}
                 />
-                <h3 className="text-xl font-semibold hover:text-lime-400 transition">
+                <h3 className="text-xl font-semibold text-text-primary hover:text-lime-400 transition">
                   {product.name}
                 </h3>
-                <p className="text-lime-400 text-lg mt-1">${product.price}</p>
-                <p className="text-gray-400 text-sm mt-1 line-clamp-2">{product.desc}</p>
+                <p className="text-lime-400 text-lg font-bold mt-1">${product.price}</p>
+                <p className="text-text-muted text-sm mt-1 line-clamp-2">{product.desc}</p>
               </Link>
               <button
                 onClick={(e) => {
                   e.preventDefault();
                   addToCart(product);
                 }}
-                className="mt-4 bg-lime-400 text-black px-4 py-2 rounded-xl w-full font-semibold hover:bg-lime-500 transition"
+                className="mt-4 bg-lime-400 text-black font-semibold px-4 py-2 rounded-xl w-full hover:bg-lime-500 transition shadow-md"
               >
                 В корзину
               </button>

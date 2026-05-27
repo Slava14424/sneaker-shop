@@ -15,7 +15,6 @@ export default function Checkout({ cart, subtotal, shipping, discount, total, cl
     paymentMethod: "card"
   });
 
-  // Валидация (та же, что и раньше)
   const validateField = (name, value) => {
     switch (name) {
       case "name":
@@ -73,9 +72,9 @@ export default function Checkout({ cart, subtotal, shipping, discount, total, cl
 
   if (cart.length === 0) {
     return (
-      <div className="bg-[#050505] text-white min-h-screen pt-28 px-4 text-center">
+      <div className="bg-primary text-text-primary min-h-screen pt-28 px-4 text-center">
         <h1 className="text-3xl font-bold mb-4">Корзина пуста</h1>
-        <p className="text-gray-400 mb-6">Добавьте товары, чтобы оформить заказ.</p>
+        <p className="text-text-muted mb-6">Добавьте товары, чтобы оформить заказ.</p>
         <button onClick={() => navigate("/")} className="bg-lime-400 text-black px-6 py-3 rounded-xl font-semibold">
           На главную
         </button>
@@ -84,67 +83,130 @@ export default function Checkout({ cart, subtotal, shipping, discount, total, cl
   }
 
   return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-[#050505] text-white min-h-screen pt-28 px-4 md:px-12 pb-12">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="bg-primary text-text-primary min-h-screen pt-28 px-4 md:px-12 pb-12"
+    >
       <div className="max-w-6xl mx-auto">
         <h1 className="text-3xl md:text-4xl font-bold mb-8">Оформление заказа</h1>
         <div className="grid md:grid-cols-3 gap-8">
           <div className="md:col-span-2">
-            <form onSubmit={handleSubmit} className="space-y-5 bg-[#0f0f0f] p-6 rounded-2xl border border-gray-800">
-              {}
+            <form onSubmit={handleSubmit} className="space-y-5 bg-secondary p-6 rounded-2xl border border-border">
               <div>
-                <label className="block text-sm font-medium mb-1">Полное имя *</label>
-                <input type="text" name="name" required value={formData.name} onChange={handleChange} className={`w-full bg-[#1a1a1a] border ${errors.name ? 'border-red-500' : 'border-gray-700'} rounded-lg px-4 py-2 focus:outline-none focus:border-lime-400`} />
+                <label className="block text-sm font-medium mb-1 text-text-primary">Полное имя *</label>
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  value={formData.name}
+                  onChange={handleChange}
+                  className={`w-full bg-card-hover border ${errors.name ? 'border-red-500' : 'border-border'} rounded-lg px-4 py-2 text-text-primary focus:outline-none focus:border-lime-400`}
+                />
                 {errors.name && <p className="text-red-400 text-xs mt-1">{errors.name}</p>}
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Email *</label>
-                <input type="email" name="email" required value={formData.email} onChange={handleChange} className={`w-full bg-[#1a1a1a] border ${errors.email ? 'border-red-500' : 'border-gray-700'} rounded-lg px-4 py-2 focus:outline-none focus:border-lime-400`} />
+                <label className="block text-sm font-medium mb-1 text-text-primary">Email *</label>
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  value={formData.email}
+                  onChange={handleChange}
+                  className={`w-full bg-card-hover border ${errors.email ? 'border-red-500' : 'border-border'} rounded-lg px-4 py-2 text-text-primary focus:outline-none focus:border-lime-400`}
+                />
                 {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email}</p>}
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Телефон *</label>
-                <input type="tel" name="phone" required value={formData.phone} onChange={handleChange} placeholder="+7 (123) 456-78-90" className={`w-full bg-[#1a1a1a] border ${errors.phone ? 'border-red-500' : 'border-gray-700'} rounded-lg px-4 py-2 focus:outline-none focus:border-lime-400`} />
+                <label className="block text-sm font-medium mb-1 text-text-primary">Телефон *</label>
+                <input
+                  type="tel"
+                  name="phone"
+                  required
+                  value={formData.phone}
+                  onChange={handleChange}
+                  placeholder="+7 (123) 456-78-90"
+                  className={`w-full bg-card-hover border ${errors.phone ? 'border-red-500' : 'border-border'} rounded-lg px-4 py-2 text-text-primary focus:outline-none focus:border-lime-400`}
+                />
                 {errors.phone && <p className="text-red-400 text-xs mt-1">{errors.phone}</p>}
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Адрес *</label>
-                <input type="text" name="address" required value={formData.address} onChange={handleChange} className={`w-full bg-[#1a1a1a] border ${errors.address ? 'border-red-500' : 'border-gray-700'} rounded-lg px-4 py-2 focus:outline-none focus:border-lime-400`} />
+                <label className="block text-sm font-medium mb-1 text-text-primary">Адрес *</label>
+                <input
+                  type="text"
+                  name="address"
+                  required
+                  value={formData.address}
+                  onChange={handleChange}
+                  className={`w-full bg-card-hover border ${errors.address ? 'border-red-500' : 'border-border'} rounded-lg px-4 py-2 text-text-primary focus:outline-none focus:border-lime-400`}
+                />
                 {errors.address && <p className="text-red-400 text-xs mt-1">{errors.address}</p>}
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Город *</label>
-                <input type="text" name="city" required value={formData.city} onChange={handleChange} placeholder="Москва, Санкт-Петербург, Королёв 1" className={`w-full bg-[#1a1a1a] border ${errors.city ? 'border-red-500' : 'border-gray-700'} rounded-lg px-4 py-2 focus:outline-none focus:border-lime-400`} />
+                <label className="block text-sm font-medium mb-1 text-text-primary">Город *</label>
+                <input
+                  type="text"
+                  name="city"
+                  required
+                  value={formData.city}
+                  onChange={handleChange}
+                  placeholder="Москва, Санкт-Петербург, Королёв 1"
+                  className={`w-full bg-card-hover border ${errors.city ? 'border-red-500' : 'border-border'} rounded-lg px-4 py-2 text-text-primary focus:outline-none focus:border-lime-400`}
+                />
                 {errors.city && <p className="text-red-400 text-xs mt-1">{errors.city}</p>}
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Способ оплаты</label>
-                <select name="paymentMethod" value={formData.paymentMethod} onChange={handleChange} className="w-full bg-[#1a1a1a] border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-lime-400">
+                <label className="block text-sm font-medium mb-1 text-text-primary">Способ оплаты</label>
+                <select
+                  name="paymentMethod"
+                  value={formData.paymentMethod}
+                  onChange={handleChange}
+                  className="w-full bg-card-hover border border-border rounded-lg px-4 py-2 text-text-primary focus:outline-none focus:border-lime-400"
+                >
                   <option value="card">Банковская карта</option>
                   <option value="cash">Наличные при получении</option>
                   <option value="paypal">PayPal</option>
                 </select>
               </div>
-              <button type="submit" disabled={isSubmitting} className="w-full bg-lime-400 text-black py-3 rounded-xl font-bold hover:bg-lime-500 transition disabled:opacity-50">
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-lime-400 text-black py-3 rounded-xl font-bold hover:bg-lime-500 transition disabled:opacity-50"
+              >
                 {isSubmitting ? "Обработка..." : "Подтвердить заказ"}
               </button>
             </form>
           </div>
 
-          <div className="bg-[#0f0f0f] p-6 rounded-2xl border border-gray-800 h-fit">
-            <h2 className="text-xl font-bold mb-4">Ваш заказ</h2>
+          <div className="bg-secondary p-6 rounded-2xl border border-border h-fit">
+            <h2 className="text-xl font-bold mb-4 text-text-primary">Ваш заказ</h2>
             <div className="space-y-3 max-h-80 overflow-y-auto mb-4">
               {cart.map((item) => (
                 <div key={item.id} className="flex justify-between text-sm">
-                  <span>{item.name} x{item.quantity}</span>
-                  <span>${(item.price * item.quantity).toFixed(2)}</span>
+                  <span className="text-text-primary">{item.name} x{item.quantity}</span>
+                  <span className="text-text-primary">${(item.price * item.quantity).toFixed(2)}</span>
                 </div>
               ))}
             </div>
-            <div className="border-t border-gray-700 pt-3 space-y-2">
-              <div className="flex justify-between"><span>Товары</span><span>${subtotal.toFixed(2)}</span></div>
-              <div className="flex justify-between"><span>Доставка</span><span>{shipping === 0 ? "Бесплатно" : `$${shipping.toFixed(2)}`}</span></div>
-              {discount > 0 && <div className="flex justify-between text-lime-400"><span>Скидка</span><span>-${discount.toFixed(2)}</span></div>}
-              <div className="flex justify-between font-bold text-lg"><span>Итого</span><span className="text-lime-400">${total.toFixed(2)}</span></div>
+            <div className="border-t border-border pt-3 space-y-2">
+              <div className="flex justify-between">
+                <span className="text-text-muted">Товары</span>
+                <span className="text-text-primary">${subtotal.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-text-muted">Доставка</span>
+                <span className="text-text-primary">{shipping === 0 ? "Бесплатно" : `$${shipping.toFixed(2)}`}</span>
+              </div>
+              {discount > 0 && (
+                <div className="flex justify-between text-lime-400">
+                  <span>Скидка</span>
+                  <span>-${discount.toFixed(2)}</span>
+                </div>
+              )}
+              <div className="flex justify-between font-bold text-lg">
+                <span className="text-text-primary">Итого</span>
+                <span className="text-lime-400">${total.toFixed(2)}</span>
+              </div>
             </div>
           </div>
         </div>

@@ -3,7 +3,7 @@ import Footer from "./Footer";
 
 export default function Layout({ children, cartCount, onCartClick }) {
   return (
-    <div className="bg-[#050505] text-white min-h-screen font-sans flex flex-col">
+    <div className="bg-primary text-text-primary min-h-screen font-sans flex flex-col">
       <Navbar cartCount={cartCount} onCartClick={onCartClick} />
       <main className="flex-grow pt-24">{children}</main>
       <Footer />
