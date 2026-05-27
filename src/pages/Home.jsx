@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
-// Товар только для фона (не участвует в добавлении)
+
 const heroProduct = {
   id: 1,
   name: "Nike Air Max",
@@ -138,7 +138,7 @@ export default function Home() {
             «Кроссовки — это не просто обувь. Это язык, на котором говорит улица. Мы переводим тренды в реальность.»
           </p>
           <div className="w-12 h-0.5 bg-lime-400 mx-auto my-6" />
-          <p className="text-gray-500 text-sm">Основано в 2025</p>
+          <p className="text-gray-500 text-sm">Основано в 2026</p>
         </motion.div>
       </div>
     </div>

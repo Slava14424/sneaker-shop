@@ -17,7 +17,7 @@ const fallbackNews = [
   {
     title: "Balenciaga запускает линию кроссовок с ИИ-дизайном",
     description: "Коллаборация с технологическим стартапом обещает персонализированную подошву, напечатанную на 3D-принтере.",
-    image: "https://images.unsplash.com/photo-1551107696-a4b0c5a9d5a2?w=600",
+    image: "https://i.siteapi.org/t5aket8_3zWs54uqdoONNmXqHIU=/0x0:1200x686/s2.siteapi.org/44b0dfc585a3400/img/qknxpvytm804kc0s4goo0og8444w84",
     publishedAt: new Date().toISOString(),
     source: { name: "Hypebeast" },
     content: "Balenciaga представила прототип кроссовок, которые подстраиваются под форму стопы владельца. Сканер в магазине создаёт цифровую модель, а затем печатает подошву за 24 часа."
@@ -30,14 +30,7 @@ const fallbackNews = [
     source: { name: "Harper's Bazaar" },
     content: "Legacy-модель возвращается с новой экокожей и подкладкой из переработанного нейлона. Доступно 5 цветов, включая изумрудный и терракотовый."
   },
-  {
-    title: "Prada и Adidas продолжают коллаборацию",
-    description: "Третья совместная коллекция включает кроссовки и минималистичные аксессуары.",
-    image: "https://images.unsplash.com/photo-1560769623-6ecddd217b2f?w=600",
-    publishedAt: new Date().toISOString(),
-    source: { name: "Highsnobiety" },
-    content: "Кроссовки получили премиальную кожу и технологию Boost. Лимитированная серия поступит в продажу 15 июня."
-  },
+
   {
     title: "Викторианский стиль возвращается: корсеты и кружева на подиумах",
     description: "Дизайнеры переосмысливают романтику XIX века в уличной моде.",
@@ -57,7 +50,7 @@ const fallbackNews = [
   {
     title: "Как устойчивая мода становится мейнстримом",
     description: "Бренды от Zara до Stella McCartney переходят на переработанные ткани.",
-    image: "https://images.unsplash.com/photo-1558769132-9461bcf2c226?w=600",
+    image: "https://storage.yandexcloud.net/moskvichmag/uploads/2026/04/BOYKO_08853-1-792x1024.jpg",
     publishedAt: new Date().toISOString(),
     source: { name: "Business of Fashion" },
     content: "Использование эко-материалов выросло на 40% за последний год. Потребители всё чаще выбирают продукцию с маркировкой 'устойчивое производство'."

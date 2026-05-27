@@ -20,7 +20,6 @@ export default function CategoryPage({ title, products, addToCart, subcategories
         {title}
       </motion.h1>
 
-      {}
       <div className="flex flex-wrap gap-3 mb-8">
         <button
           onClick={() => setActiveSubcat("all")}
@@ -62,7 +61,10 @@ export default function CategoryPage({ title, products, addToCart, subcategories
                   src={product.image}
                   alt={product.name}
                   className="w-full h-48 object-cover rounded-xl mb-4"
-                  onError={(e) => (e.target.src = "https://via.placeholder.com/300?text=No+Image")}
+                  onError={(e) => {
+                    // Пытаемся подставить реальное изображение кроссовок из Unsplash (случайное)
+                    e.target.src = "https://source.unsplash.com/featured/500x400?sneakers";
+                  }}
                 />
                 <h3 className="text-xl font-semibold hover:text-lime-400 transition">
                   {product.name}

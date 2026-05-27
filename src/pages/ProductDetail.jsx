@@ -44,7 +44,6 @@ export default function ProductDetail({ addToCart }) {
 
   return (
     <div className="bg-[#050505] text-white min-h-screen px-4 md:px-12 py-8">
-      {/* хлебные крошки, изображение, детали – без изменений */}
       <div className="text-sm text-gray-400 mb-6">
         <Link to="/" className="hover:text-white">Home</Link> /{" "}
         <Link to={`/${product.category}`} className="hover:text-white">
@@ -52,8 +51,16 @@ export default function ProductDetail({ addToCart }) {
         </Link> / Shoes / Sneakers
       </div>
       <div className="grid md:grid-cols-2 gap-10">
-        <div className="bg-[#111] rounded-2xl p-6 flex justify-center items-center border border-gray-800">
-          <img src={product.image} alt={product.name} className="w-full max-h-[500px] object-contain" />
+        {/* Блок с изображением – теперь фото растягивается на всю область */}
+        <div className="bg-[#111] rounded-2xl p-6 flex justify-center items-center border border-gray-800 h-[500px]">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="w-full h-full object-cover rounded-xl"
+            onError={(e) => {
+              e.target.src = "https://source.unsplash.com/featured/600x600?sneakers";
+            }}
+          />
         </div>
         <div>
           <h1 className="text-3xl md:text-4xl font-bold">{product.brand || "Brand"}</h1>
@@ -75,14 +82,14 @@ export default function ProductDetail({ addToCart }) {
             <button className="text-sm text-lime-400">Size guide</button>
           </div>
           <div className="flex flex-wrap gap-2 mb-6">
-            {["S", "M", "L", "XL"].map(size => (
+            {(product.sizes || ["S", "M", "L", "XL"]).map(size => (
               <button key={size} onClick={() => setSelectedSize(size)} className={`px-4 py-2 rounded-lg border ${selectedSize === size ? "border-lime-400 bg-lime-400/10 text-lime-400" : "border-gray-700 hover:border-gray-500"}`}>{size}</button>
             ))}
           </div>
           <div className="mb-6">
             <span className="font-semibold block mb-2">Color</span>
             <div className="flex flex-wrap gap-3">
-              {["Black", "White", "Red"].map(color => (
+              {(product.colors || ["Black", "White", "Red"]).map(color => (
                 <button key={color} onClick={() => setSelectedColor(color)} className={`px-4 py-2 rounded-lg border ${selectedColor === color ? "border-lime-400 bg-lime-400/10 text-lime-400" : "border-gray-700 hover:border-gray-500"}`}>{color}</button>
               ))}
             </div>
