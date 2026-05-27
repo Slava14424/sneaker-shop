@@ -68,6 +68,49 @@ export default function Checkout({ cart, subtotal, shipping, discount, total, cl
       clearCart();
       navigate("/");
     }, 1000);
+    // Сохраняем заказ в localStorage
+const order = {
+  id: Date.now(),
+  date: new Date().toLocaleDateString(),
+  items: cart.map(item => ({
+    name: item.name,
+    quantity: item.quantity,
+    price: item.price
+  })),
+  total: total,
+  status: "Оплачен"
+};
+
+// Получаем существующие заказы
+const savedOrders = localStorage.getItem("userOrders");
+const orders = savedOrders ? JSON.parse(savedOrders) : [];
+orders.unshift(order); // новый заказ в начало
+localStorage.setItem("userOrders", JSON.stringify(orders));
+
+// Обновляем статистику
+const savedStats = localStorage.getItem("userStats");
+if (savedStats) {
+  const stats = JSON.parse(savedStats);
+  stats.totalOrders += 1;
+  stats.totalSpent += total;
+  stats.lastVisit = new Date().toLocaleDateString();
+  localStorage.setItem("userStats", JSON.stringify(stats));
+} else {
+  const newStats = {
+    totalOrders: 1,
+    totalSpent: total,
+    lastVisit: new Date().toLocaleDateString()
+  };
+  localStorage.setItem("userStats", JSON.stringify(newStats));
+}
+
+// Очищаем корзину
+clearCart();
+
+// Перенаправляем в профиль на вкладку заказов (опционально)
+setTimeout(() => {
+  navigate("/profile?tab=orders");
+}, 500);
   };
 
   if (cart.length === 0) {

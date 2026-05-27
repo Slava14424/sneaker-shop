@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 
 export default function Explore() {
   return (
-    <div className="bg-[#050505] text-white min-h-screen">
-      {/* HERO СЕКЦИЯ */}
+    <div className="bg-primary text-text-primary min-h-screen">
+      {/* Hero секция */}
       <section className="relative h-[60vh] flex items-center justify-center text-center overflow-hidden">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -15,14 +15,14 @@ export default function Explore() {
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6">
             Добро пожаловать в Sneakerly
           </h1>
-          <p className="text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto">
+          <p className="text-xl md:text-2xl text-text-secondary max-w-2xl mx-auto">
             Мы создали пространство, где технологии встречаются с уличной модой.
           </p>
         </motion.div>
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-[#050505]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-primary" />
       </section>
 
-      {/* О НАС */}
+      {/* О нас */}
       <section className="px-6 md:px-12 py-16 max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -33,7 +33,7 @@ export default function Explore() {
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Кто мы?</h2>
           <div className="w-20 h-1 bg-lime-400 mx-auto mb-6" />
-          <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+          <p className="text-text-secondary text-lg max-w-3xl mx-auto">
             Sneakerly — это не просто магазин кроссовок. Это экосистема для тех, кто ценит стиль, инновации и комфорт.
             Мы объединяем культуру уличной моды, люксовые бренды и передовые технологии, чтобы каждый мог найти идеальную пару.
           </p>
@@ -60,12 +60,12 @@ export default function Explore() {
             className="space-y-4"
           >
             <h3 className="text-2xl font-semibold text-lime-400">Наша миссия</h3>
-            <p className="text-gray-300">
+            <p className="text-text-secondary">
               Вдохновлять и одевать следующее поколение. Мы стремимся сделать качественные кроссовки доступными,
               а процесс покупки — вдохновляющим. Каждая пара в нашем ассортименте отобрана с любовью к деталям.
             </p>
             <h3 className="text-2xl font-semibold text-lime-400 pt-4">Философия</h3>
-            <p className="text-gray-300">
+            <p className="text-text-secondary">
               Мы верим, что кроссовки — это больше, чем обувь. Это самовыражение. Поэтому мы привозим эксклюзивные
               коллаборации, редкие релизы и поддерживаем тренды, не забывая о классике.
             </p>
@@ -73,8 +73,8 @@ export default function Explore() {
         </div>
       </section>
 
-      {/* ПРЕИМУЩЕСТВА */}
-      <section className="bg-[#0a0a0a] py-20 px-6 md:px-12">
+      {/* Преимущества – без смайликов, только текст */}
+      <section className="bg-secondary py-20 px-6 md:px-12">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -87,41 +87,26 @@ export default function Explore() {
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                icon: "",
-                title: "Быстрая доставка",
-                desc: "По всей России за 2–3 дня. Бесплатно при заказе от 5000 ₽."
-              },
-              {
-                icon: "",
-                title: "Гарантия подлинности",
-                desc: "100% оригинал. Проверка каждого экземпляра перед отправкой."
-              },
-              {
-                icon: "",
-                title: "Лёгкий возврат",
-                desc: "14 дней на возврат без вопросов. Просто заполните форму."
-              }
-            ].map((item, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1 }}
-                className="bg-[#111] rounded-2xl p-6 text-center border border-gray-800 hover:border-lime-400/50 transition"
-              >
-                <div className="text-5xl mb-4">{item.icon}</div>
-                <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-                <p className="text-gray-400 text-sm">{item.desc}</p>
-              </motion.div>
-            ))}
+            <div className="bg-card rounded-2xl p-6 text-center border border-border hover:border-lime-400/50 transition">
+              <div className="text-4xl mb-4 text-lime-400"></div>
+              <h3 className="text-xl font-bold mb-2">Быстрая доставка</h3>
+              <p className="text-text-muted text-sm">По всей России за 2–3 дня. Бесплатно при заказе от 5000 ₽.</p>
+            </div>
+            <div className="bg-card rounded-2xl p-6 text-center border border-border hover:border-lime-400/50 transition">
+              <div className="text-4xl mb-4 text-lime-400">✓</div>
+              <h3 className="text-xl font-bold mb-2">Гарантия подлинности</h3>
+              <p className="text-text-muted text-sm">100% оригинал. Проверка каждого экземпляра перед отправкой.</p>
+            </div>
+            <div className="bg-card rounded-2xl p-6 text-center border border-border hover:border-lime-400/50 transition">
+              <div className="text-4xl mb-4 text-lime-400">↻</div>
+              <h3 className="text-xl font-bold mb-2">Лёгкий возврат</h3>
+              <p className="text-text-muted text-sm">14 дней на возврат без вопросов. Просто заполните форму.</p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* СТАТИСТИКА */}
+      {/* Статистика */}
       <section className="py-20 px-6 md:px-12">
         <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
           {[
@@ -139,14 +124,14 @@ export default function Explore() {
               className="text-center"
             >
               <div className="text-3xl md:text-4xl font-bold text-lime-400">{stat.value}</div>
-              <div className="text-gray-400 text-sm mt-2">{stat.label}</div>
+              <div className="text-text-muted text-sm mt-2">{stat.label}</div>
             </motion.div>
           ))}
         </div>
       </section>
 
-      {/* КОМАНДА (опционально) */}
-      <section className="bg-[#0a0a0a] py-20 px-6 md:px-12">
+      {/* Команда */}
+      <section className="bg-secondary py-20 px-6 md:px-12">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -156,7 +141,7 @@ export default function Explore() {
           >
             <h2 className="text-3xl md:text-4xl font-bold">Наша команда</h2>
             <div className="w-20 h-1 bg-lime-400 mx-auto mt-4" />
-            <p className="text-gray-400 mt-4 max-w-2xl mx-auto">
+            <p className="text-text-muted mt-4 max-w-2xl mx-auto">
               Энтузиасты, которые живут кроссовками и знают о них всё.
             </p>
           </motion.div>
@@ -174,18 +159,18 @@ export default function Explore() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.1 }}
-                className="bg-[#111] rounded-2xl p-4 text-center border border-gray-800"
+                className="bg-card rounded-2xl p-4 text-center border border-border"
               >
                 <img src={member.img} alt={member.name} className="w-32 h-32 rounded-full mx-auto mb-3 object-cover" />
-                <h3 className="font-bold">{member.name}</h3>
-                <p className="text-gray-400 text-sm">{member.role}</p>
+                <h3 className="font-bold text-text-primary">{member.name}</h3>
+                <p className="text-text-muted text-sm">{member.role}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ПРИЗЫВ К ДЕЙСТВИЮ */}
+      {/* Призыв к действию */}
       <section className="py-20 px-6 text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -194,7 +179,7 @@ export default function Explore() {
           className="max-w-3xl mx-auto"
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Готовы найти свою идеальную пару?</h2>
-          <p className="text-gray-300 mb-8">
+          <p className="text-text-secondary mb-8">
             Присоединяйтесь к сообществу Sneakerly и получайте первыми новости о скидках и новых релизах.
           </p>
           <Link

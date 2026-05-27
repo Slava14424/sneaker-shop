@@ -11,6 +11,7 @@ import Explore from "./pages/Explore";
 import ProductDetail from "./pages/ProductDetail";
 import Checkout from "./pages/Checkout";
 import NewsDetail from "./pages/NewsDetail";
+import Profile from "./pages/Profile";
 
 export default function App() {
   const [cart, setCart] = useState(() => {
@@ -89,6 +90,7 @@ export default function App() {
               element={<Checkout cart={cart} subtotal={subtotal} shipping={shipping} discount={discount} total={total} clearCart={clearCart} />}
             />
             <Route path="/news/:id" element={<NewsDetail />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </Layout>
         <CartDrawer

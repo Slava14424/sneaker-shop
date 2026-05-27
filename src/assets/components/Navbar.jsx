@@ -24,6 +24,7 @@ export default function Navbar({ cartCount = 0, onCartClick }) {
         <Link to="/men" className="hover:text-text-primary transition">Men</Link>
         <Link to="/couture" className="hover:text-text-primary transition">Couture</Link>
         <Link to="/explore" className="hover:text-text-primary transition">Explore</Link>
+        <Link to="/profile" className="hover:text-text-primary transition">Profile</Link>
       </nav>
 
       {/* Мобильное меню */}
